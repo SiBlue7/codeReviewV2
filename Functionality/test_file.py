@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, List
 import os
 from pathlib import Path
 
@@ -64,6 +64,18 @@ def is_test_file(file_path: str) -> bool:
     test_directories = ['test', 'tests', 'spec', 'specs', 'e2e']
     return any(test_dir in dir_path.split(os.sep) for test_dir in test_directories)
 
+def is_test_file_list(files_list: List[str]) -> List[str]:
+    """
+    Vérifie si les fichiers de la liste sont des fichiers de test.
+    
+    Args:
+        files_list (list): Liste de chemins de fichiers à vérifier
+        
+    Returns:
+        list: Liste des fichiers de test
+    """
+    return [file for file in files_list if is_test_file(file)]
+
 @file_walker
 def count_test_files(project_path: Union[str, Path]) -> int:
     """
@@ -77,62 +89,50 @@ def count_test_files(project_path: Union[str, Path]) -> int:
     """
     return 1 if is_test_file(project_path) else 0
 
-@file_walker
-def count_empty_test_files(file_path: Path) -> int:
+def count_empty_test_files(file_list: List[str]) -> int:
     """
     Compte le nombre de fichiers de test vides dans le projet.
     
     Args:
-        file_path (Path): Chemin du fichier à vérifier
+        file_list (List[str]) : Liste des chemin de fichier à vérifier
         
     Returns:
-        int: 1 si le fichier de test est vide, 0 sinon
+        int: Nombre de fichiers de test vides
     """
-    return 1 if is_empty_file(file_path) and is_test_file(file_path) else 0
+    empty_test_files = 0
+    for file in file_list:
+        if is_test_file(file) and is_empty_file(file):
+            empty_test_files += 1
+    return empty_test_files
 
-@file_walker
-def count_comment_only_test_files(file_path: Path) -> int:
+def count_comment_only_test_files(file_list: List[str]) -> int:
     """
     Compte le nombre de fichiers de test contenant uniquement des commentaires.
     
     Args:
-        file_path (Path): Chemin du fichier à vérifier
+        file_list (List[str]) : Liste des chemin de fichier à vérifier
         
     Returns:
-        int: 1 si le fichier de test contient uniquement des commentaires, 0 sinon
+        int: Nombre de fichiers de test contenant uniquement des commentaires
     """
-    return 1 if is_test_file(file_path) and is_comment_only(file_path) and not is_empty_file(file_path)  else 0
+    comment_only_test_files = 0
+    for file in file_list:
+        if is_test_file(file) and is_comment_only(file) and not is_empty_file(file):
+            comment_only_test_files += 1
+    return comment_only_test_files
 
-def pourcentage_empty_test_files(project_path: Union[str, Path]) -> float:
+def pourcentage_test_file(first_total: int, second_total: int) -> float:
     """
-    Calcule le pourcentage de fichiers de test vides dans le projet.
+    Calcule le pourcentage de fichiers de test dans le projet.
     
     Args:
-        project_path (Union[str, Path]): Chemin du projet à analyser
-        
-    Returns:
-        float: Pourcentage de fichiers de test vides
-    """
-    total_test_files = count_test_files(project_path)
-    if total_test_files == 0:
-        return 0.0
-    
-    empty_test_files = count_empty_test_files(project_path)
-    return round((empty_test_files / total_test_files) * 100, 2)
+        first_total (List[str]): Nombre de fichiers de test
+        second_total (List[str]): Nombre total de fichiers
 
-def pourcentage_comment_only_test_files(project_path: Union[str, Path]) -> float:
-    """
-    Calcule le pourcentage de fichiers de test contenant uniquement des commentaires dans le projet.
-    
-    Args:
-        project_path (Union[str, Path]): Chemin du projet à analyser
-        
     Returns:
-        float: Pourcentage de fichiers de test contenant uniquement des commentaires
+        float: Pourcentage de fichiers de test
     """
-    total_test_files = count_test_files(project_path)
-    if total_test_files == 0:
+    if second_total == 0:
         return 0.0
-    
-    comment_only_test_files = count_comment_only_test_files(project_path)
-    return round((comment_only_test_files / total_test_files) * 100, 2)
+
+    return round((first_total / second_total) * 100, 2)
