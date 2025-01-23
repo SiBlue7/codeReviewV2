@@ -1,0 +1,15 @@
+{
+    "projectPath": "C:/Users/enzo2/Developement/Boulot/projetTest",
+    "outputDir": "ReviewResult",
+    "format": "txt",
+    "extensions": [".ts", ".js", ".html", ".scss", ".java"],
+    "features": {
+      "detectEmptyFiles": true,
+      "detectCommentOnlyFiles": true,
+      "detectTodo": false,
+      "detectTestFiles": false,
+      "detectCodeDuplication": false,
+      "detectUnusedImports": false,
+      "test": true
+    }
+}

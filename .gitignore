@@ -1,0 +1,4 @@
+.venv
+ReviewResult
+Log/__pycache__
+Log/*.log
