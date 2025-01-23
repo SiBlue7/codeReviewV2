@@ -1,4 +1,8 @@
 .venv
 ReviewResult
+__pycache__/
+Const/__pycache__
+Functionality/__pycache__
 Log/__pycache__
 Log/*.log
+Report/__pycache__

@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 from pathlib import Path
 
 from Log.logger_config import logger, error_handler
@@ -18,6 +18,15 @@ def check_todo(file_path: str) -> List[Tuple[int, str]]:
     except Exception as e:
         logger.error(f"\nErreur lors de la lecture du fichier {file_path}: {str(e)}\n")
         return []
+    
+def check_todo_files(files: List[str]) -> Dict[str, List[Tuple[int, str]]]:
+    """Recherche les lignes contenant des TODO dans une liste de fichiers."""
+    todo_files = {}
+    for file in files:
+        todos = check_todo(file)
+        if todos:
+            todo_files[file] = todos
+    return todo_files
     
 @file_walker
 def count_todo_files(file_path: Path) -> int:

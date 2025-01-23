@@ -1,5 +1,6 @@
 from Functionality.empty_file import is_empty_files_list
 from Functionality.comment_file import is_comment_only_list
+from Functionality.todo_file import check_todo_files
 from Functionality.file_logic import get_valid_files_list
 
 def check_config(config):
@@ -20,6 +21,13 @@ def check_config(config):
         for file in comment_files:
             results[file] = "Comment-only file"
         statistics["comment_files"] = len(comment_files)
+
+    if features.get("detectTodo"):
+        todo_files = check_todo_files(valid_files)
+        for file, todos in todo_files.items():
+            results[file] = f"TODOs: {todos}"
+        statistics["todo_files"] = len(todo_files)
+
 
     if features.get("test"):
         print("Test mode is enabled")

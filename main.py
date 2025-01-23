@@ -4,6 +4,7 @@ import json
 from Log.logger_config import setup_logging
 from Functionality.check_config import check_config
 from Report.file_review_writer import write_report
+from Functionality.file_logic import print_valid_files_list, check_valid_files
 
 
 def load_config(config_path="config.json"):
@@ -14,6 +15,9 @@ def load_config(config_path="config.json"):
 
 def code_review(config):
     """Fonction principale de revue de code"""
+    # Vérifier que les fichiers sont valides
+    #valid_files = check_valid_files(config.get("projectPath"), config.get("extensions"))
+    #print_valid_files_list(valid_files)
     results, statistics = check_config(config)
 
     write_report(results, statistics, config)
