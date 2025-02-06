@@ -6,3 +6,12 @@ Functionality/__pycache__
 Log/__pycache__
 Log/*.log
 Report/__pycache__
+
+# Dossier contenant les fichiers générés (HTML, etc.)
+docs/build/
+docs/source/modules.rst
+docs/requirements.txt
+
+# Fichiers temporaires de Sphinx
+docs/.doctrees/
+docs/.buildinfo

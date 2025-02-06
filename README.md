@@ -26,6 +26,36 @@ To run the code review, you need to change the config.json file and execute the 
 python main.py
 ```
 
+## Documentation
+
+Documention is made with [Sphinx](https://www.sphinx-doc.org/en/master/index.html)
+
+If you want to run the documentation, go to docs folder using :
+
+```bash
+cd path_to_docs_folder
+```
+
+If the .rst file are missing in the source folder use the following command to generate them :
+
+```bash
+sphinx-apidoc -o source/ project_path
+```
+
+Then use the following command to build the documentation file :
+
+1. On windows
+
+```bash
+.\make.bat html
+```
+
+2. On linux/mac
+
+```bash
+make html
+```
+
 ## Error
 
 - If you get the error [WinError 3] Le chemin d’accès spécifié est introuvable try the following steps from [StackOverflow](https://stackoverflow.com/questions/29557760/long-paths-in-python-on-windows) :
